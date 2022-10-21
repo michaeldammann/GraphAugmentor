@@ -2,6 +2,7 @@
 import torch
 import numpy as np
 
+
 def subgraph_directed(data, aug_ratio):
     node_num, _ = data.x.size()
 
@@ -23,7 +24,6 @@ def subgraph_directed(data, aug_ratio):
         idx_sub.append(sample_node)
         idx_neigh = set([n for n in edge_index[1][edge_index[0] == idx_sub[-1]]])
 
-    print("idx_sub",idx_sub)
     idx_sub = np.sort(np.unique(idx_sub))
     new_edges_idx = []
     for new_edge in new_edges:
@@ -65,7 +65,6 @@ def subgraph_undirected(data, aug_ratio):
 
     for e_idx, edge in enumerate(edge_index_T):
         if [edge[1], edge[0]] not in edge_index_T:
-            print('yay')
             edge_index_T.append([edge[1], edge[0]])
             if has_edge_attr:
                 edge_attr.append(edge_attr[e_idx])
@@ -93,7 +92,7 @@ def mask_nodes(data, aug_ratio):
     return data
 
 
-def mask_edges(data, aug_ratio):
+def mask_edges_directed(data, aug_ratio):
     _, edge_num = data.edge_index.size()
     mask_num = int(edge_num * aug_ratio)
 
@@ -103,7 +102,36 @@ def mask_edges(data, aug_ratio):
 
     idx_mask = np.random.choice(edge_num, mask_num, replace=False)
     data.edge_attr[idx_mask] = token
-    print(data.edge_attr)
+
+    return data
+
+def mask_edges_undirected(data, aug_ratio):
+    edge_index = data.edge_index
+    unique_edges = []
+    unique_idcs = []
+    edge_index_T = edge_index.numpy().T
+    for e_idx, edge in enumerate(edge_index_T):
+        if (edge[1], edge[0]) not in unique_edges:
+            unique_edges.append(tuple(edge))
+            unique_idcs.append(e_idx)
+
+    _, edge_num = edge_index.size()
+    mask_num = int(0.5 * edge_num * aug_ratio)
+
+    edge_pairs_dict = {}
+    for idx0, edge0 in enumerate(edge_index_T):
+        for idx1, edge1 in enumerate(edge_index_T):
+            if np.array_equal(edge1, [edge0[1], edge0[0]]):
+                edge_pairs_dict[idx0] = idx1
+
+    data.edge_attr = data.edge_attr.type('torch.FloatTensor')
+    token = data.edge_attr.mean(dim=0)
+    token = token.type('torch.FloatTensor')
+
+    idx_mask = np.random.choice(unique_idcs, mask_num, replace=False)
+    for elem in idx_mask:
+        idx_mask = np.append(idx_mask,[edge_pairs_dict[elem]], axis=0)
+    data.edge_attr[idx_mask] = token
 
     return data
 

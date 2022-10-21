@@ -1,5 +1,4 @@
-import numpy as np
-from torch_geometric.data import Data, Batch
+from torch_geometric.data import Batch
 import random
 
 class BatchAugmentor:
@@ -11,11 +10,11 @@ class BatchAugmentor:
         else:
             self.probs = probs
 
-    def augment_batch(self, databatch):
+    def augment_batch(self, databatch, num_augs=1):
         all_graphs = Batch.to_data_list(databatch)
-        augmentations = random.choices(self.augmentfunclist, self.probs, k=len(all_graphs))
-        print(augmentations)
-        return Batch.from_data_list([augmentations[i](graph, self.augmentfuncratiodict[augmentations[i]]) for i, graph in enumerate(all_graphs)])
-
+        for i in range(num_augs):
+            augmentations = random.choices(self.augmentfunclist, self.probs, k=len(all_graphs))
+            all_graphs = [augmentations[i](graph, self.augmentfuncratiodict[augmentations[i]]) for i, graph in enumerate(all_graphs)]
+        return Batch.from_data_list(all_graphs)
 
 

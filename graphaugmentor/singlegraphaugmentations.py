@@ -2,9 +2,10 @@
 import torch
 import numpy as np
 import warnings
+from torch_geometric.data import Data
 
 
-def subgraph_directed(data, aug_ratio):
+def subgraph_directed(data: Data, aug_ratio: float) -> Data:
     node_num, _ = data.x.size()
 
     _, edge_num = data.edge_index.size()
@@ -56,7 +57,7 @@ def subgraph_directed(data, aug_ratio):
     return data
 
 
-def subgraph_undirected(data, aug_ratio):
+def subgraph_undirected(data: Data, aug_ratio: float) -> Data:
     data = subgraph_directed(data, aug_ratio)
     edge_index_T = data.edge_index.numpy().T.tolist()
     has_edge_attr = False
@@ -76,11 +77,11 @@ def subgraph_undirected(data, aug_ratio):
     return data
 
 
-def identity(data, aug_ratio):
+def identity(data: Data, aug_ratio: float) -> Data:
     return data
 
 
-def mask_nodes(data, aug_ratio):
+def mask_nodes(data: Data, aug_ratio: float) -> Data:
     node_num, feat_dim = data.x.size()
     mask_num = int(node_num * aug_ratio)
 
@@ -93,7 +94,7 @@ def mask_nodes(data, aug_ratio):
     return data
 
 
-def mask_edges_directed(data, aug_ratio):
+def mask_edges_directed(data: Data, aug_ratio: float) -> Data:
     if data.edge_attr is None:
         warnings.warn('No edge attributes given! Not augmenting graph.')
         return data
@@ -110,7 +111,7 @@ def mask_edges_directed(data, aug_ratio):
 
     return data
 
-def mask_edges_undirected(data, aug_ratio):
+def mask_edges_undirected(data: Data, aug_ratio: float) -> Data:
     if data.edge_attr is None:
         warnings.warn('No edge attributes given! Not augmenting graph.')
         return data
@@ -144,7 +145,7 @@ def mask_edges_undirected(data, aug_ratio):
     return data
 
 
-def drop_nodes(data, aug_ratio):
+def drop_nodes(data: Data, aug_ratio: float) -> Data:
     node_num, _ = data.x.size()
 
     has_edge_attr = False
@@ -187,7 +188,7 @@ def drop_nodes(data, aug_ratio):
     return data
 
 
-def drop_edges_undirected(data, aug_ratio):
+def drop_edges_undirected(data: Data, aug_ratio: float) -> Data:
     edge_index = data.edge_index.numpy()
     unique_edges = []
     unique_idcs = []
@@ -224,7 +225,7 @@ def drop_edges_undirected(data, aug_ratio):
     return data
 
 
-def drop_edges_directed(data, aug_ratio):
+def drop_edges_directed(data: Data, aug_ratio: float) -> Data:
     node_num, _ = data.x.size()
     _, edge_num = data.edge_index.size()
     permute_num = int(edge_num * aug_ratio)
@@ -237,6 +238,4 @@ def drop_edges_directed(data, aug_ratio):
 
     if data.edge_attr is not None:
         data.edge_attr = data.edge_attr[idx_nondrop, :]
-    # new_data = Data(x=data.x, edge_index=data.edge_index, y=data.y, num_nodes=data.x.size()[0])
-    # data.num_nodes = data.x.size()
     return data

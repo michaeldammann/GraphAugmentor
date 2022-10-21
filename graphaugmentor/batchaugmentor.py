@@ -10,7 +10,7 @@ class BatchAugmentor:
         else:
             self.probs = probs
 
-    def augment_batch(self, databatch, num_augs=1):
+    def augment_batch(self, databatch: Batch, num_augs: int=1) -> Batch:
         all_graphs = Batch.to_data_list(databatch)
         for i in range(num_augs):
             augmentations = random.choices(self.augmentfunclist, self.probs, k=len(all_graphs))

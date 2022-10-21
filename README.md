@@ -3,4 +3,4 @@
 </p>
 
 # GraphAugmentor
-## A simple Graph Augmentation package for self-supervised and contrastive graph machine learning based on Pytorch Geometric
+### A simple Graph Augmentation package for self-supervised and contrastive graph machine learning based on Pytorch Geometric

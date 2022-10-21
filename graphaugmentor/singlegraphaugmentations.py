@@ -95,7 +95,7 @@ def mask_nodes(data, aug_ratio):
 
 def mask_edges_directed(data, aug_ratio):
     if data.edge_attr is None:
-        print(warnings.warn('No edge attributes given! Not augmenting graph.'))
+        warnings.warn('No edge attributes given! Not augmenting graph.')
         return data
 
     _, edge_num = data.edge_index.size()
@@ -112,7 +112,7 @@ def mask_edges_directed(data, aug_ratio):
 
 def mask_edges_undirected(data, aug_ratio):
     if data.edge_attr is None:
-        print(warnings.warn('No edge attributes given! Not augmenting graph.'))
+        warnings.warn('No edge attributes given! Not augmenting graph.')
         return data
     edge_index = data.edge_index
     unique_edges = []

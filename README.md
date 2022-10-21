@@ -1,6 +1,6 @@
 ![GraphAugmentor Logo](graphaugmentor_logo.SVG)
 <p align="center">
-  <img src="graphaugmentor_logo.SVG" />
+  <img src="graphaugmentor_logo.SVG" width="50%"/>
 </p>
 
 # GraphAugmentor

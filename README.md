@@ -3,7 +3,7 @@
 </p>
 
 # GraphAugmentor
-A simple Graph Augmentation package for self-supervised and contrastive graph machine learning based on PyTorch Geometric
+A simple graph augmentation package for self-supervised and contrastive graph machine learning based on PyTorch Geometric
 
 ## Introduction
 GraphAugmentor provides simple to use graph augmentations based on PyTorch Geometric graph representations. Augmentations can be applied to single graphs or batches of graphs, making this package suitable for graph-level tasks. GraphAugmentor also provides augmentations tailored for both undirected and directed graphs.
@@ -20,5 +20,5 @@ The following augmentations are provided (see [singlegraphaugmentations.py](grap
 - Drop edges (`drop_edges_directed`, `drop_edges_undirected`): Drop `aug_ratio`*100 % of the edges in the graphs.  Available for both directed and undirected graphs.
 - Identity (`identity`): Return the original graph. (`aug_ratio` has no effect)
 
-## Examples
-See [examples.py](graphaugmentor/examples.py) for an example for a batch of directed and a batch of undirected graphs.
+## Usage and Examples
+You can either use the functions directly from [singlegraphaugmentations.py](graphaugmentor/singlegraphaugmentations.py) for single graphs or use the [BatchAugmentor](graphaugmentor/batchaugmentor.py) to specify what augmentations to use (`augmentfunclist`), together with the `aug_ratio` settings summarized in `augmentfuncratiodict` and a custom sample distribution (`probs`). `BatchAugmentor` then provides `augment_batch` to augment a single batch, e.g., provided by the PyTorch Geometric DataLoader. The number of (random) augmentations each graph can be customized using `num_augs`. See [examples.py](graphaugmentor/examples.py) for a minimal example for a batch of directed and a batch of undirected graphs.

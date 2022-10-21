@@ -1,6 +1,7 @@
 # Adapted and modified from https://github.com/Shen-Lab/GraphCL/blob/master/semisupervised_TU/pre-training/tu_dataset.py
 import torch
 import numpy as np
+import warnings
 
 
 def subgraph_directed(data, aug_ratio):
@@ -93,6 +94,10 @@ def mask_nodes(data, aug_ratio):
 
 
 def mask_edges_directed(data, aug_ratio):
+    if data.edge_attr is None:
+        print(warnings.warn('No edge attributes given! Not augmenting graph.'))
+        return data
+
     _, edge_num = data.edge_index.size()
     mask_num = int(edge_num * aug_ratio)
 
@@ -106,6 +111,9 @@ def mask_edges_directed(data, aug_ratio):
     return data
 
 def mask_edges_undirected(data, aug_ratio):
+    if data.edge_attr is None:
+        print(warnings.warn('No edge attributes given! Not augmenting graph.'))
+        return data
     edge_index = data.edge_index
     unique_edges = []
     unique_idcs = []

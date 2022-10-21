@@ -13,15 +13,16 @@ Both graphs with and without edge attributes (edge_attr) are accepted, choose "m
 ############### Example for batch of DIRECTED graphs ################
 
 # Choose set of augmentations and their respective aug_ratios (share of nodes/edges to be augmented/dropped/considered etc.)
-augfuncratiodict_directed = {drop_edges_directed:0.2,
+augmentfunclist_directed = [drop_edges_directed, drop_nodes, mask_nodes, mask_edges_directed, subgraph_directed, identity]
+augmentfuncratiodict_directed = {drop_edges_directed:0.2,
                     drop_nodes:0.2,
                     mask_nodes:0.2,
                     mask_edges_directed:0.2,
                     subgraph_directed:0.8,
                     identity:0.0} #identity function is independent of aug_ratio and aug_ratio is only listed for consistency reasons
-baug_directed = BatchAugmentor([drop_edges_directed, drop_nodes, mask_nodes, mask_edges_directed, subgraph_directed, identity],
-                               augmentfuncratiodict=augfuncratiodict_directed,
-                               probs=[1./6, 1./6, 1./6, 1./6, 1./6, 1./6]) #probs can also be left blank for automatic uniform distribution
+baug_directed = BatchAugmentor(augmentfunclist = augmentfunclist_directed,
+                               augmentfuncratiodict = augmentfuncratiodict_directed,
+                               probs = [1./6, 1./6, 1./6, 1./6, 1./6, 1./6]) #probs can also be left blank for automatic uniform distribution
 
 #Construct simple directed graph
 x_directed = torch.tensor([[0,0], [1, 1], [2, 2], [3, 3], [4, 4], [5, 5], [6, 6], [7, 7], [8, 8], [9, 9]], dtype=torch.float)
@@ -45,16 +46,16 @@ augmented_batch_directed = baug_directed.augment_batch(batch_directed, num_augs=
 
 
 ############### Example for batch of UNDIRECTED graphs ################
-
-augfuncratiodict_undirected = {drop_edges_undirected:0.2,
+augmentfunclist_undirected = [drop_edges_undirected, drop_nodes, mask_nodes, mask_edges_undirected, subgraph_undirected, identity]
+augmentfuncratiodict_undirected = {drop_edges_undirected:0.2,
                     drop_nodes:0.2,
                     mask_nodes:0.2,
                     mask_edges_undirected:0.2,
                     subgraph_undirected:0.8,
                     identity:0.0} #identity function is independent of aug_ratio and aug_ratio is only listed for consistency reasons
 
-baug_undirected = BatchAugmentor([drop_edges_directed, drop_nodes, mask_nodes, mask_edges_directed, subgraph_directed, identity],
-                               augmentfuncratiodict=augfuncratiodict_directed,
+baug_undirected = BatchAugmentor(augmentfunclist=augmentfunclist_undirected,
+                               augmentfuncratiodict=augmentfuncratiodict_undirected,
                                probs=[1./6, 1./6, 1./6, 1./6, 1./6, 1./6]) #probs can also be left blank for automatic uniform distribution
 
 x_undirected = torch.tensor([[0,0], [1, 1], [2, 2], [3, 3], [4, 4], [5, 5]], dtype=torch.float)
@@ -63,7 +64,7 @@ edge_index_undirected = torch.tensor([[0, 1, 1, 2, 2, 3, 3, 4, 4, 5],
 edge_attr_undirected = torch.tensor([[0,1,2], [1,2,3], [0,1,2], [1,2,3], [2,3,4], [3,4,5],
                                    [2,3,4], [4,5,6], [3,4,5], [4,5,6]])
 
-data_undirected_0 = Data(x=x_directed, edge_index=edge_index_directed, edge_attr=edge_attr_directed)
+data_undirected_0 = Data(x=x_directed, edge_index=edge_index_undirected, edge_attr=edge_attr_undirected)
 data_undirected_1 = data_undirected_0.clone()
 
 batch_undirected = Batch.from_data_list([data_undirected_0, data_undirected_1])

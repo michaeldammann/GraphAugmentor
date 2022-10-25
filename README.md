@@ -28,7 +28,7 @@ You can either use the functions directly from [singlegraphaugmentations.py](gra
 Please consider citing this repository if it was useful for your research.
 ```
 @misc{graphaugmentor,
-	author={Dammann Michael},
+	author={Dammann, Michael},
 	title={graphaugmentor},
 	year={2022},
 	url={https://github.com/michaeldammann/GraphAugmentor},

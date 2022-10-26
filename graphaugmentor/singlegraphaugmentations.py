@@ -10,6 +10,7 @@ def subgraph_directed(data: Data, aug_ratio: float) -> Data:
 
     _, edge_num = data.edge_index.size()
     sub_num = int(node_num * aug_ratio)
+    max_sub_num = 100*sub_num #to prevent infinite loops
 
     edge_index = data.edge_index.numpy()
 
@@ -19,6 +20,8 @@ def subgraph_directed(data: Data, aug_ratio: float) -> Data:
 
     while np.unique(idx_sub).size < sub_num:
         if len(idx_neigh) == 0:
+            break
+        if len(idx_sub)>max_sub_num:
             break
         sample_node = np.random.choice(list(idx_neigh))
         if [idx_sub[-1], sample_node] not in new_edges:

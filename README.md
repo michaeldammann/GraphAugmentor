@@ -22,3 +22,15 @@ The following augmentations are provided (see [singlegraphaugmentations.py](grap
 
 ## Usage and Examples
 You can either use the functions directly from [singlegraphaugmentations.py](graphaugmentor/singlegraphaugmentations.py) for single graphs or use the [BatchAugmentor](graphaugmentor/batchaugmentor.py) to specify what augmentations to use (`augmentfunclist`), together with the `aug_ratio` settings summarized in `augmentfuncratiodict` and a custom sample distribution (`probs`). `BatchAugmentor` then provides `augment_batch` to augment a single batch, e.g., provided by the PyTorch Geometric DataLoader. The number of (random) augmentations of each graph can be customized using `num_augs`. See [examples.py](graphaugmentor/examples.py) for a minimal example for a batch of directed and a batch of undirected graphs.
+
+## Citation
+
+Please consider citing this repository if it was useful for your research.
+```
+@misc{graphaugmentor,
+	author={Dammann, Michael},
+	title={graphaugmentor},
+	year={2022},
+	url={https://github.com/michaeldammann/GraphAugmentor},
+}
+```

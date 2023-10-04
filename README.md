@@ -3,10 +3,17 @@
 </p>
 
 # GraphAugmentor
-A simple graph augmentation package for self-supervised and contrastive graph machine learning based on PyTorch Geometric
+A simple graph augmentation package for self-supervised and contrastive graph machine learning based on PyTorch Geometric.
 
 ## Introduction
 GraphAugmentor provides simple to use graph augmentations based on PyTorch Geometric graph representations. Augmentations can be applied to single graphs or batches of graphs, making this package suitable for graph-level tasks. GraphAugmentor also provides augmentations tailored for both undirected and directed graphs.
+
+## Installation
+Tested on Ubuntu 20.04 with PyTorch 1.13.0, create a virtual environment and install (Cuda is not used, cu116 is replaceable with cpu):
+
+    pip install torch==1.13.0+cu116 torchvision==0.14.0+cu116 torchaudio==0.13.0 --extra-index-url https://download.pytorch.org/whl/cu116
+    pip install torch_geometric
+    pip install pyg_lib torch_scatter torch_sparse torch_cluster torch_spline_conv -f https://data.pyg.org/whl/torch-1.13.0+cu116.html
 
 ## Augmentations
 This package is suitable for directed and undirected graphs and graphs with and without edge attributes (edge_attr in PyTorch Geometric). See the provided examples (next section) for more details on how to use this package depending on the kind of graphs you are dealing with.
